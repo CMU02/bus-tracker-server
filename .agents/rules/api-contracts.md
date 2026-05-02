@@ -91,12 +91,12 @@ Keep messages useful for developers, but do not expose secrets such as service k
 
 ## External API Rules
 
-Seoul public API responses should be parsed from XML into internal DTOs before mapping to public API DTOs.
+Seoul public API responses should be requested as JSON and parsed into internal DTOs before mapping to public API DTOs.
 
 Required Seoul APIs:
 
-- `getBusRouteList?serviceKey=...&strSrch={query}`
-- `getStaionByRoute?serviceKey=...&busRouteId={routeId}`
-- `getBusPosByRouteSt?serviceKey=...&busRouteId={routeId}&startOrd=1&endOrd={lastSeq}`
+- `getBusRouteList?serviceKey=...&strSrch={query}&resultType=json`
+- `getStaionByRoute?serviceKey=...&busRouteId={routeId}&resultType=json`
+- `getBusPosByRouteSt?serviceKey=...&busRouteId={routeId}&startOrd=1&endOrd={lastSeq}&resultType=json`
 
-Never pass raw Seoul API XML directly to clients.
+Never pass raw Seoul API JSON directly to clients. Parse it into Seoul DTOs, normalize it into BusTracker domain models, and then map it to public API responses.

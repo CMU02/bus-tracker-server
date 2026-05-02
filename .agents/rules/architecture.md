@@ -29,12 +29,12 @@ Use feature-oriented packages under `com.cmu02.bustracker`:
 
 - `route`: public route search and station lookup API.
 - `position`: vehicle position snapshots and SSE streaming.
-- `seoul`: Seoul public API client and XML parsing.
+- `seoul`: Seoul public API client and JSON parsing.
 - `nats`: NATS connection and route snapshot messaging.
 - `config`: typed application properties and infrastructure beans.
 - `common`: shared exceptions and response/error utilities only when reused.
 
-Keep each class responsible for one job. For example, do not mix XML parsing, polling, and SSE session management in one service.
+Keep each class responsible for one job. For example, do not mix JSON parsing, polling, and SSE session management in one service.
 
 ## Data Flow
 

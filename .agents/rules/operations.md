@@ -40,7 +40,7 @@ Log these failures with enough context to diagnose the issue:
 
 - Seoul API HTTP/client failure.
 - Seoul API error code response.
-- XML parsing failure.
+- JSON parsing failure.
 - NATS connection, publish, or subscribe failure.
 - SSE send failure or client disconnect.
 

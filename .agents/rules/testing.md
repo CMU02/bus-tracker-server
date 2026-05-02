@@ -8,7 +8,7 @@ Use test-first changes for new behavior. A new service, parser, controller, or s
 
 Unit tests:
 
-- Seoul XML parser normal response.
+- Seoul JSON parser normal response.
 - Empty Seoul response.
 - Seoul API error code response.
 - Missing optional fields.
@@ -32,7 +32,7 @@ Integration checks:
 
 ## Test Data
 
-Keep Seoul XML samples small and local to parser tests unless reused.
+Keep Seoul JSON samples small and local to parser tests unless reused.
 
 Do not use real public data portal keys in tests, source files, or committed fixtures.
 

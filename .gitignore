@@ -43,3 +43,6 @@ out/
 
 
 /src/main/resources/application-dev.yaml
+
+### Local agent/tool state ###
+.omc/

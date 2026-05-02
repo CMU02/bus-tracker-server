@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=$DB_SCHEMA'
+      - 'MYSQL_ROOT_PASSWORD=$DB_PASSWORD'
+      - 'MYSQL_USER=$DB_USERNAME'
+      - 'MYSQL_PASSWORD=$DB_PASSWORD'
+    ports:
+      - '3306:3306'
+    networks:
+      - bus-tracker-network
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    networks:
+      - bus-tracker-network
+
+  nats:
+    build:
+      context: .
+      dockerfile: infra/nats.Dockerfile
+    image: 'bus-tracker-nats:2.12.7-healthcheck'
+    container_name: 'bus-tracker-nats'
+    ports:
+      - '4222:4222' # 클라이언트 연결 포트
+      - '8222:8222' # HTTP 모니터링 포트
+    volumes:
+      - ./infra/nats.conf:/etc/nats/nats.conf
+      - ./infra/logs/nats:/var/log/nats
+    command:
+      - "-c"
+      - "/etc/nats/nats.conf"
+    environment:
+      - NATS_AUTH_TOKEN=${NATS_AUTH_TOKEN}
+    networks:
+      - bus-tracker-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/bin/busybox", "wget", "-q", "-O", "-", "http://127.0.0.1:8222/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  bus-tracker-network:
+    driver: bridge

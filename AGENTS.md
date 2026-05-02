@@ -19,6 +19,7 @@ Read these project rules before making changes:
 - `.agents/rules/api-contracts.md`
 - `.agents/rules/git-convention.md`
 - `.agents/rules/guardrails.md`
+- `.agents/rules/project-progress.md`
 - `.agents/rules/testing.md`
 - `.agents/rules/operations.md`
 

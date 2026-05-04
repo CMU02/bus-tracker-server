@@ -28,3 +28,4 @@ bustracker:
       ttl-minutes: 30
   sse:
     interval-seconds: 15
+    heartbeat-seconds: 30

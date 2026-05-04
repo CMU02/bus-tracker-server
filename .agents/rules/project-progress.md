@@ -12,8 +12,8 @@
 ## 현재 기능: SSE 기반 실시간 버스 위치 추적 백엔드
 
 - [ ] 기획 완료 <!-- progress:auto:planning-complete -->
-- [ ] 구현 완료 <!-- progress:auto:implementation-complete -->
-- [ ] 테스트 완료 <!-- progress:auto:tests-complete -->
+- [x] 구현 완료 <!-- progress:auto:implementation-complete -->
+- [x] 테스트 완료 <!-- progress:auto:tests-complete -->
 - [ ] 다음 기능 PRD Notion 작성 완료 <!-- progress:manual:notion-prd-complete -->
 
 ## 완료 기준
@@ -47,3 +47,7 @@ PRD 필수 섹션:
 - 테스트 기준
 
 PRD 작성이 끝나면 이 파일의 `다음 기능 PRD Notion 작성 완료` 항목을 체크합니다.
+
+
+
+

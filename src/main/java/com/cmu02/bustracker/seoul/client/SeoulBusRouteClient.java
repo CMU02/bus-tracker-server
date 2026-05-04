@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(
         name = "seoulBusRouteClient",
-        url = "${bustracker.seoul.route-base-url:http://ws.bus.go.kr/api/rest/busRouteInfo}"
+        url = "http://ws.bus.go.kr/api/rest/busRouteInfo"
 )
 public interface SeoulBusRouteClient {
 
     @GetMapping("/getStaionByRoute")
     String getStaionByRoute(
-            @RequestParam("serviceKey") String serviceKey,
-            @RequestParam("busRouteId") String busRouteId,
-            @RequestParam("resultType") String resultType
+            @RequestParam("busRouteId") String busRouteId
     );
 }

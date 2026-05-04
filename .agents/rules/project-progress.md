@@ -14,7 +14,7 @@
 - [ ] 기획 완료 <!-- progress:auto:planning-complete -->
 - [x] 구현 완료 <!-- progress:auto:implementation-complete -->
 - [x] 테스트 완료 <!-- progress:auto:tests-complete -->
-- [ ] 다음 기능 PRD Notion 작성 완료 <!-- progress:manual:notion-prd-complete -->
+- [x] 다음 기능 PRD Notion 작성 완료 <!-- progress:manual:notion-prd-complete -->
 
 ## 완료 기준
 

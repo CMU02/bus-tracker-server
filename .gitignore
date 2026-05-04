@@ -46,3 +46,6 @@ out/
 
 ### Local agent/tool state ###
 .omc/
+.claude/worktrees/
+.claude/settings.local.json
+.claude/launch.json

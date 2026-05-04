@@ -1,4 +1,4 @@
-$ErrorActionPreference = "SilentlyContinue"
+$ErrorActionPreference = "Continue"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -15,7 +15,7 @@ if (Test-Path -LiteralPath $progressPath) {
     $prdDone = $progress -match "- \[x\] 다음 기능 PRD Notion 작성 완료"
 
     if ($implementationDone -and $testsDone -and -not $prdDone) {
-        Write-Error "구현 완료와 테스트 완료가 체크됐지만 다음 기능 PRD가 Notion에 작성되지 않았습니다. BusTracker Notion 페이지에 다음 기능 PRD를 작성한 뒤 project-progress.md의 PRD 항목을 체크해주세요."
+        [Console]::Error.WriteLine("Guardrail block: 구현 완료와 테스트 완료가 체크됐지만 다음 기능 PRD가 Notion에 작성되지 않았습니다. BusTracker Notion 페이지에 다음 기능 PRD를 작성한 뒤 project-progress.md의 PRD 항목을 체크해주세요.")
         exit 2
     }
 }

@@ -1,6 +1,9 @@
 package com.cmu02.bustracker.config;
 
 import com.cmu02.bustracker.common.error.RouteNotFoundException;
+import com.cmu02.bustracker.common.messaging.MessageBrokerClient;
+import com.cmu02.bustracker.common.messaging.MessageSerializer;
+import com.cmu02.bustracker.nats.NatsClient;
 import com.cmu02.bustracker.nats.NatsConnectionManager;
 import com.cmu02.bustracker.nats.RoutePositionPublisher;
 import com.cmu02.bustracker.nats.RoutePositionSubscriber;
@@ -34,15 +37,20 @@ import java.util.function.Consumer;
 public class NatsFeaturesConfig {
 
     @Bean
-    RoutePositionPublisher routePositionPublisher(NatsConnectionManager connectionManager,
-                                                   ObjectMapper objectMapper) {
-        return new RoutePositionPublisher(connectionManager::getConnection, objectMapper);
+    MessageBrokerClient messageBrokerClient(NatsConnectionManager connectionManager) {
+        return new NatsClient(connectionManager.getConnection());
     }
 
     @Bean
-    RoutePositionSubscriber routePositionSubscriber(NatsConnectionManager connectionManager,
-                                                     ObjectMapper objectMapper) {
-        return new RoutePositionSubscriber(connectionManager::getConnection, objectMapper);
+    RoutePositionPublisher routePositionPublisher(MessageBrokerClient broker,
+                                                   MessageSerializer serializer) {
+        return new RoutePositionPublisher(broker, serializer);
+    }
+
+    @Bean
+    RoutePositionSubscriber routePositionSubscriber(MessageBrokerClient broker,
+                                                     MessageSerializer serializer) {
+        return new RoutePositionSubscriber(broker, serializer);
     }
 
     @Bean
@@ -53,13 +61,13 @@ public class NatsFeaturesConfig {
             RoutePositionPublisher publisher,
             ScheduledExecutorService routePollerExecutor,
             Clock clock,
-            SseProperties sseProps,
-            PublicDataPortalProperties keyProps) {
+            SseProperties sseProps
+            ) {
 
         return (routeId, errorNotifier) -> buildPoller(
                 routeId, errorNotifier,
                 routeClient, positionClient, parser, publisher,
-                routePollerExecutor, clock, sseProps, keyProps);
+                routePollerExecutor, clock, sseProps);
     }
 
     private RoutePositionPoller buildPoller(
@@ -71,8 +79,8 @@ public class NatsFeaturesConfig {
             RoutePositionPublisher publisher,
             ScheduledExecutorService routePollerExecutor,
             Clock clock,
-            SseProperties sseProps,
-            PublicDataPortalProperties keyProps) {
+            SseProperties sseProps
+            ) {
 
         // Seoul API로 정류장 목록을 조회해 routeId 검증 및 endOrd(lastSeq) 산출
         String json = routeClient.getStaionByRoute(routeId);

@@ -1,9 +1,11 @@
 package com.cmu02.bustracker.nats;
 
 import com.cmu02.bustracker.common.error.NatsPublishException;
+import com.cmu02.bustracker.common.messaging.JacksonMessageSerializer;
+import com.cmu02.bustracker.common.messaging.MessageBrokerClient;
+import com.cmu02.bustracker.common.messaging.MessageSerializer;
 import com.cmu02.bustracker.position.domain.PositionSnapshot;
 import tools.jackson.databind.ObjectMapper;
-import io.nats.client.Connection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,9 +14,8 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -22,14 +23,14 @@ import static org.mockito.Mockito.verify;
 
 class RoutePositionPublisherTest {
 
-    private Connection connection;
+    private MessageBrokerClient broker;
     private RoutePositionPublisher publisher;
 
     @BeforeEach
     void setUp() {
-        connection = mock(Connection.class);
-        ObjectMapper mapper = new ObjectMapper();
-        publisher = new RoutePositionPublisher(() -> connection, mapper);
+        broker = mock(MessageBrokerClient.class);
+        MessageSerializer serializer = new JacksonMessageSerializer(new ObjectMapper());
+        publisher = new RoutePositionPublisher(broker, serializer);
     }
 
     @Test
@@ -44,11 +45,11 @@ class RoutePositionPublisherTest {
 
         publisher.publish(snapshot);
 
-        verify(connection).publish(eq("bus.position.route.100100025.snapshot"), any(byte[].class));
+        verify(broker).publish(eq("bus.position.route.100100025.snapshot"), anyString());
     }
 
     @Test
-    @DisplayName("Connection.publish 실패는 NatsPublishException으로 변환된다")
+    @DisplayName("MessageBrokerClient.publish 실패는 NatsPublishException으로 변환된다")
     void wrapsPublishFailure() {
         PositionSnapshot snapshot = new PositionSnapshot(
                 "100100025",
@@ -56,11 +57,10 @@ class RoutePositionPublisherTest {
                 15,
                 List.of()
         );
-        doThrow(new IllegalStateException("connection closed"))
-                .when(connection).publish(any(String.class), any(byte[].class));
+        doThrow(new RuntimeException("connection closed"))
+                .when(broker).publish(anyString(), anyString());
 
         assertThatThrownBy(() -> publisher.publish(snapshot))
                 .isInstanceOf(NatsPublishException.class);
-        assertThat(snapshot.routeId()).isEqualTo("100100025");
     }
 }

@@ -1,5 +1,6 @@
 package com.cmu02.bustracker.position.application;
 
+import com.cmu02.bustracker.common.messaging.Subscription;
 import com.cmu02.bustracker.config.SseProperties;
 import com.cmu02.bustracker.nats.RoutePositionSubscriber;
 import com.cmu02.bustracker.position.api.ConnectedEvent;
@@ -64,7 +65,7 @@ public class PositionStreamService {
         RoutePollerRegistry.Handle handle = registry.subscribe(routeId,
                 err -> sendError(emitter, routeId, err));
 
-        RoutePositionSubscriber.Subscription natsSub;
+        Subscription natsSub;
         try {
             natsSub = subscriber.subscribe(routeId, snap -> sendSnapshot(emitter, snap));
         } catch (Exception e) {
@@ -96,11 +97,11 @@ public class PositionStreamService {
 
     private Runnable buildCleanup(
             ScheduledFuture<?> heartbeat,
-            RoutePositionSubscriber.Subscription natsSub,
+            Subscription natsSub,
             RoutePollerRegistry.Handle handle) {
         return () -> {
             heartbeat.cancel(false);
-            subscriber.unsubscribe(natsSub);
+            natsSub.close();
             registry.unsubscribe(handle);
             log.info("SSE 스트림 정리 routeId={}", handle.routeId());
         };

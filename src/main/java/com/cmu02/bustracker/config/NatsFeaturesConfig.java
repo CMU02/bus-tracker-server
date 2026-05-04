@@ -75,7 +75,7 @@ public class NatsFeaturesConfig {
             PublicDataPortalProperties keyProps) {
 
         // Seoul API로 정류장 목록을 조회해 routeId 검증 및 endOrd(lastSeq) 산출
-        String json = routeClient.getStaionByRoute(keyProps.encode(), routeId, "json");
+        String json = routeClient.getStaionByRoute(routeId);
         List<SeoulStationItem> stations = parser.parseStationList(json);
         if (stations.isEmpty()) {
             throw new RouteNotFoundException(routeId);
@@ -88,7 +88,7 @@ public class NatsFeaturesConfig {
         return new RoutePositionPoller(
                 routeId, lastSeq, sseProps.intervalSeconds(),
                 positionClient, parser, publisher,
-                routePollerExecutor, clock, keyProps.encode(), errorNotifier);
+                routePollerExecutor, clock, errorNotifier);
     }
 
     @Bean

@@ -31,8 +31,6 @@ public class RoutePositionPoller {
 
     private static final Logger log = LoggerFactory.getLogger(RoutePositionPoller.class);
 
-    private static final String RESULT_TYPE_JSON = "json";
-
     private final String routeId;
     private final int lastSeq;
     private final int intervalSeconds;
@@ -41,7 +39,6 @@ public class RoutePositionPoller {
     private final RoutePositionPublisher publisher;
     private final ScheduledExecutorService scheduler;
     private final Clock clock;
-    private final String serviceKey;
     private final Consumer<PollerError> errorNotifier;
 
     private volatile ScheduledFuture<?> future;
@@ -55,7 +52,6 @@ public class RoutePositionPoller {
             RoutePositionPublisher publisher,
             ScheduledExecutorService scheduler,
             Clock clock,
-            String serviceKey,
             Consumer<PollerError> errorNotifier) {
         this.routeId = routeId;
         this.lastSeq = lastSeq;
@@ -65,7 +61,6 @@ public class RoutePositionPoller {
         this.publisher = publisher;
         this.scheduler = scheduler;
         this.clock = clock;
-        this.serviceKey = serviceKey;
         this.errorNotifier = errorNotifier;
     }
 
@@ -90,7 +85,7 @@ public class RoutePositionPoller {
      */
     void pollOnce() {
         try {
-            String json = positionClient.getBusPosByRouteSt(serviceKey, routeId, 1, lastSeq, RESULT_TYPE_JSON);
+            String json = positionClient.getBusPosByRouteSt(routeId, 1, lastSeq);
             List<SeoulVehiclePositionItem> items = parser.parseVehiclePositions(json);
             PositionSnapshot snapshot = buildSnapshot(items);
             publisher.publish(snapshot);

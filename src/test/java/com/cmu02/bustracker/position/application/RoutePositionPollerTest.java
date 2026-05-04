@@ -36,7 +36,6 @@ import static org.mockito.Mockito.verify;
 class RoutePositionPollerTest {
 
     private static final String ROUTE_ID = "100100025";
-    private static final String SERVICE_KEY = "test-key";
 
     @Mock
     SeoulBusPositionClient positionClient;
@@ -56,7 +55,7 @@ class RoutePositionPollerTest {
         poller = new RoutePositionPoller(
                 ROUTE_ID, 50, 15,
                 positionClient, parser, publisher,
-                scheduler, fixedClock, SERVICE_KEY,
+                scheduler, fixedClock,
                 capturedErrors::add
         );
     }
@@ -64,7 +63,7 @@ class RoutePositionPollerTest {
     @Test
     @DisplayName("정상 응답 시 올바른 routeId로 snapshot을 publish한다")
     void publishesSnapshotWithCorrectRouteId() {
-        given(positionClient.getBusPosByRouteSt(SERVICE_KEY, ROUTE_ID, 1, 50, "json"))
+        given(positionClient.getBusPosByRouteSt(ROUTE_ID, 1, 50))
                 .willReturn("{\"msgHeader\":{\"headerCd\":\"0\"}}");
         given(parser.parseVehiclePositions(anyString())).willReturn(List.of(
                 new SeoulVehiclePositionItem("V001", "서울70사1234", "5", "6", "0", "1", null, "0")
@@ -82,7 +81,7 @@ class RoutePositionPollerTest {
     @Test
     @DisplayName("Seoul API 오류 시 SEOUL_API_ERROR PollerError를 errorNotifier로 전달한다")
     void notifiesSeoulApiError() {
-        given(positionClient.getBusPosByRouteSt(anyString(), anyString(), anyInt(), anyInt(), anyString()))
+        given(positionClient.getBusPosByRouteSt(anyString(), anyInt(), anyInt()))
                 .willReturn("{}");
         given(parser.parseVehiclePositions(anyString()))
                 .willThrow(new SeoulApiException("4", "결과가 없습니다."));
@@ -97,7 +96,7 @@ class RoutePositionPollerTest {
     @Test
     @DisplayName("NATS publish 실패 시 NATS_PUBLISH_ERROR PollerError를 errorNotifier로 전달한다")
     void notifiesNatsPublishError() {
-        given(positionClient.getBusPosByRouteSt(anyString(), anyString(), anyInt(), anyInt(), anyString()))
+        given(positionClient.getBusPosByRouteSt(anyString(), anyInt(), anyInt()))
                 .willReturn("{}");
         given(parser.parseVehiclePositions(anyString())).willReturn(List.of());
         willThrow(new NatsPublishException(ROUTE_ID, new RuntimeException("connection closed")))
@@ -113,7 +112,7 @@ class RoutePositionPollerTest {
     @Test
     @DisplayName("busType 코드가 올바른 enum으로 변환된다")
     void mapsSeoulBusTypeToEnum() {
-        given(positionClient.getBusPosByRouteSt(anyString(), anyString(), anyInt(), anyInt(), anyString()))
+        given(positionClient.getBusPosByRouteSt(anyString(), anyInt(), anyInt()))
                 .willReturn("{}");
         given(parser.parseVehiclePositions(anyString())).willReturn(List.of(
                 new SeoulVehiclePositionItem("V001", "번호판A", "1", "2", "1", "1", null, "0"),

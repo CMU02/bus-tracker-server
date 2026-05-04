@@ -1,0 +1,31 @@
+{
+  "msgHeader": {
+    "headerCd": "0",
+    "headerMsg": "정상적으로 처리되었습니다.",
+    "itemCount": 2
+  },
+  "msgBody": {
+    "itemList": [
+      {
+        "vehId": "123456789",
+        "plainNo": "서울70사1234",
+        "sectOrd": "12",
+        "stOrd": "13",
+        "stopFlag": "0",
+        "busType": "1",
+        "congetion": null,
+        "isFullFlag": "0"
+      },
+      {
+        "vehId": "987654321",
+        "plainNo": "서울70사5678",
+        "sectOrd": "5",
+        "stOrd": "6",
+        "stopFlag": "1",
+        "busType": "0",
+        "congetion": "3",
+        "isFullFlag": "0"
+      }
+    ]
+  }
+}

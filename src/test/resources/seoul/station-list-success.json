@@ -1,0 +1,44 @@
+{
+  "msgHeader": {
+    "headerCd": "0",
+    "headerMsg": "정상적으로 처리되었습니다.",
+    "itemCount": 3
+  },
+  "msgBody": {
+    "itemList": [
+      {
+        "seq": "1",
+        "section": "1001",
+        "station": "STA-1",
+        "stationNm": "출발 정류장",
+        "stationNo": "10001",
+        "arsId": "00001",
+        "direction": "강남",
+        "gpsX": "127.0",
+        "gpsY": "37.5"
+      },
+      {
+        "seq": "2",
+        "section": "1002",
+        "station": "STA-2",
+        "stationNm": "중간 정류장",
+        "stationNo": "10002",
+        "arsId": "00002",
+        "direction": "강남",
+        "gpsX": "127.05",
+        "gpsY": "37.51"
+      },
+      {
+        "seq": "3",
+        "section": "1003",
+        "station": "STA-3",
+        "stationNm": "도착 정류장",
+        "stationNo": "10003",
+        "arsId": "00003",
+        "direction": "강남",
+        "gpsX": "127.1",
+        "gpsY": "37.52"
+      }
+    ]
+  }
+}

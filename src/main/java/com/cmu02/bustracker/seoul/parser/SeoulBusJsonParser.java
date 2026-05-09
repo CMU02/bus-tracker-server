@@ -5,6 +5,7 @@ import com.cmu02.bustracker.common.error.SeoulApiParseException;
 import com.cmu02.bustracker.seoul.dto.SeoulApiResult;
 import com.cmu02.bustracker.seoul.dto.SeoulStationItem;
 import com.cmu02.bustracker.seoul.dto.SeoulVehiclePositionItem;
+import lombok.RequiredArgsConstructor;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.util.List;
  * Jackson 역직렬화 자체가 실패한 경우는 SeoulApiParseException으로 묶는다.
  */
 @Component
+@RequiredArgsConstructor
 public class SeoulBusJsonParser {
 
     private static final TypeReference<SeoulApiResult<SeoulVehiclePositionItem>> VEHICLE_TYPE = new TypeReference<>() {
@@ -26,10 +28,6 @@ public class SeoulBusJsonParser {
     };
 
     private final ObjectMapper objectMapper;
-
-    public SeoulBusJsonParser(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     public List<SeoulVehiclePositionItem> parseVehiclePositions(String json) {
         SeoulApiResult<SeoulVehiclePositionItem> result = readValue(json, VEHICLE_TYPE);

@@ -17,6 +17,7 @@ import com.cmu02.bustracker.seoul.client.SeoulBusRouteClient;
 import com.cmu02.bustracker.seoul.dto.SeoulStationItem;
 import com.cmu02.bustracker.seoul.parser.SeoulBusJsonParser;
 import tools.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,13 +62,13 @@ public class NatsFeaturesConfig {
             RoutePositionPublisher publisher,
             ScheduledExecutorService routePollerExecutor,
             Clock clock,
-            SseProperties sseProps
+            @Value("${bustracker.sse.intervalSeconds}") int intervalSeconds
             ) {
 
         return (routeId, errorNotifier) -> buildPoller(
                 routeId, errorNotifier,
                 routeClient, positionClient, parser, publisher,
-                routePollerExecutor, clock, sseProps);
+                routePollerExecutor, clock, intervalSeconds);
     }
 
     private RoutePositionPoller buildPoller(
@@ -79,7 +80,7 @@ public class NatsFeaturesConfig {
             RoutePositionPublisher publisher,
             ScheduledExecutorService routePollerExecutor,
             Clock clock,
-            SseProperties sseProps
+            int intervalSeconds
             ) {
 
         // Seoul API로 정류장 목록을 조회해 routeId 검증 및 endOrd(lastSeq) 산출
@@ -94,7 +95,7 @@ public class NatsFeaturesConfig {
                 .orElseThrow(() -> new RouteNotFoundException(routeId));
 
         return new RoutePositionPoller(
-                routeId, lastSeq, sseProps.intervalSeconds(),
+                routeId, lastSeq, intervalSeconds,
                 positionClient, parser, publisher,
                 routePollerExecutor, clock, errorNotifier);
     }
@@ -109,8 +110,9 @@ public class NatsFeaturesConfig {
             RoutePollerRegistry registry,
             RoutePositionSubscriber subscriber,
             TaskScheduler busTrackerTaskScheduler,
-            SseProperties sseProps,
+            @Value("${bustracker.sse.intervalSeconds}") int intervalSeconds,
+            @Value("${bustracker.sse.heartbeatSeconds}") int heartbeatSeconds,
             ObjectMapper objectMapper) {
-        return new PositionStreamService(registry, subscriber, busTrackerTaskScheduler, sseProps, objectMapper);
+        return new PositionStreamService(registry, subscriber, busTrackerTaskScheduler, intervalSeconds, heartbeatSeconds, objectMapper);
     }
 }

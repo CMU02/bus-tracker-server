@@ -4,6 +4,7 @@ import com.cmu02.bustracker.common.error.NatsPublishException;
 import com.cmu02.bustracker.common.messaging.MessageBrokerClient;
 import com.cmu02.bustracker.common.messaging.MessageSerializer;
 import com.cmu02.bustracker.position.domain.PositionSnapshot;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,17 +12,13 @@ import org.slf4j.LoggerFactory;
  * PositionSnapshot을 NATS subject로 publish한다.
  * 직렬화와 브로커 통신은 각각 MessageSerializer, MessageBrokerClient에 위임한다.
  */
+@RequiredArgsConstructor
 public class RoutePositionPublisher {
 
     private static final Logger log = LoggerFactory.getLogger(RoutePositionPublisher.class);
 
     private final MessageBrokerClient broker;
     private final MessageSerializer serializer;
-
-    public RoutePositionPublisher(MessageBrokerClient broker, MessageSerializer serializer) {
-        this.broker = broker;
-        this.serializer = serializer;
-    }
 
     public void publish(PositionSnapshot snapshot) {
         String subject = NatsSubject.routeSnapshot(snapshot.routeId());

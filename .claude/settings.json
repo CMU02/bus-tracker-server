@@ -9,7 +9,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/pre-tool-guard.ps1",
+            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/pre-tool-guard.sh\"",
             "timeout": 10
           }
         ]
@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/update-progress.ps1",
+            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/update-progress.sh\"",
             "timeout": 10
           }
         ]
@@ -31,7 +31,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/post-tool-verify.ps1",
+            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/post-tool-verify.sh\"",
             "timeout": 30
           }
         ]
@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/stop-report.ps1",
+            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/stop-report.sh\"",
             "timeout": 10
           }
         ]

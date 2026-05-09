@@ -21,11 +21,16 @@
 - 한 클래스가 250줄을 넘으면 책임 분리 후보로 봅니다.
 - 한 method가 40줄을 넘으면 분리 후보로 봅니다.
 
+## Lombok 사용
+
+- 생성자는 `@RequiredArgsConstructor`로 생성합니다.
+- 로그(logger)는 `@Slf4j`로 선언합니다. `LoggerFactory.getLogger`를 직접 쓰지 않습니다.
+
 ## Spring 스타일
 
 - 생성자 주입(constructor injection)을 사용합니다.
 - field injection은 사용하지 않습니다.
-- `@ConfigurationProperties`로 설정값을 바인딩합니다.
+- 설정값 바인딩은 `@Value("${...}")`를 사용합니다. `@ConfigurationProperties` record는 사용하지 않습니다.
 - service에서 `System.getenv`를 직접 호출하지 않습니다.
 - controller는 요청 validation, service 호출, response mapping에 집중합니다.
 - business rule은 controller가 아니라 application service에 둡니다.

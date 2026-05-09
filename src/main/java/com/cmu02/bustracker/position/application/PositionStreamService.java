@@ -6,6 +6,8 @@ import com.cmu02.bustracker.nats.RoutePositionSubscriber;
 import com.cmu02.bustracker.position.api.ConnectedEvent;
 import com.cmu02.bustracker.position.api.PositionErrorEvent;
 import com.cmu02.bustracker.position.domain.PositionSnapshot;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -66,7 +66,7 @@ class RoutePositionPollerTest {
         given(positionClient.getBusPosByRouteSt(ROUTE_ID, 1, 50))
                 .willReturn("{\"msgHeader\":{\"headerCd\":\"0\"}}");
         given(parser.parseVehiclePositions(anyString())).willReturn(List.of(
-                new SeoulVehiclePositionItem("V001", "서울70사1234", "5", "6", "0", "1", null, "0")
+                new SeoulVehiclePositionItem("V001", "서울70사1234", "5", "183", "0", "111700442", "20170810132951", "126.919766", "37.623303", "1", "111001109", "192917.8", "458196.8", "100100025")
         ));
 
         poller.pollOnce();
@@ -115,8 +115,8 @@ class RoutePositionPollerTest {
         given(positionClient.getBusPosByRouteSt(anyString(), anyInt(), anyInt()))
                 .willReturn("{}");
         given(parser.parseVehiclePositions(anyString())).willReturn(List.of(
-                new SeoulVehiclePositionItem("V001", "번호판A", "1", "2", "1", "1", null, "0"),
-                new SeoulVehiclePositionItem("V002", "번호판B", "3", "4", "0", "0", "2", "0")
+                new SeoulVehiclePositionItem("V001", "번호판A", "1", null, "1", null, null, null, null, "1", null, null, null, null),
+                new SeoulVehiclePositionItem("V002", "번호판B", "3", null, "0", null, null, null, null, "0", null, null, null, null)
         ));
 
         poller.pollOnce();
@@ -127,6 +127,6 @@ class RoutePositionPollerTest {
         assertThat(vehicles.get(0).busType().name()).isEqualTo("LOW_FLOOR");
         assertThat(vehicles.get(0).stopFlag()).isTrue();
         assertThat(vehicles.get(1).busType().name()).isEqualTo("GENERAL");
-        assertThat(vehicles.get(1).congestion()).isEqualTo(2);
+        assertThat(vehicles.get(1).congestion()).isNull();  // getBusPosByRouteSt는 congetion 필드를 제공하지 않음
     }
 }

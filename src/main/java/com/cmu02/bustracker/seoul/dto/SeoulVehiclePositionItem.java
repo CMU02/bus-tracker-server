@@ -11,10 +11,16 @@ public record SeoulVehiclePositionItem(
         @JsonProperty("vehId") String vehId,
         @JsonProperty("plainNo") String plainNo,
         @JsonProperty("sectOrd") String sectOrd,
-        @JsonProperty("stOrd") String stOrd,
+        @JsonProperty("sectDist") String sectDist,
         @JsonProperty("stopFlag") String stopFlag,
+        @JsonProperty("sectionId") String sectionId,
+        @JsonProperty("dataTm") String dataTm,
+        @JsonProperty("tmX") String tmX,
+        @JsonProperty("tmY") String tmY,
         @JsonProperty("busType") String busType,
-        @JsonProperty("congetion") String congetion,
-        @JsonProperty("isFullFlag") String isFullFlag
+        @JsonProperty("lastStnId") String lastStnId,
+        @JsonProperty("posX") String posX,
+        @JsonProperty("posY") String posY,
+        @JsonProperty("routeId") String routeId
 ) {
 }

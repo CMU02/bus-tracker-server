@@ -10,21 +10,33 @@
         "vehId": "123456789",
         "plainNo": "서울70사1234",
         "sectOrd": "12",
-        "stOrd": "13",
+        "sectDist": "183",
         "stopFlag": "0",
+        "sectionId": "111700442",
+        "dataTm": "20170810132951",
+        "tmX": "126.919766",
+        "tmY": "37.623303",
         "busType": "1",
-        "congetion": null,
-        "isFullFlag": "0"
+        "lastStnId": "111001109",
+        "posX": "192917.86479917663",
+        "posY": "458196.80905869836",
+        "routeId": "100100118"
       },
       {
         "vehId": "987654321",
         "plainNo": "서울70사5678",
         "sectOrd": "5",
-        "stOrd": "6",
+        "sectDist": "30",
         "stopFlag": "1",
+        "sectionId": "111700444",
+        "dataTm": "20170810132954",
+        "tmX": "126.915291",
+        "tmY": "37.606243",
         "busType": "0",
-        "congetion": "3",
-        "isFullFlag": "0"
+        "lastStnId": "111000119",
+        "posX": "192521.15469553374",
+        "posY": "456303.8825914166",
+        "routeId": "100100118"
       }
     ]
   }

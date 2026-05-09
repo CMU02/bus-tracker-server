@@ -113,11 +113,11 @@ public class RoutePositionPoller {
                 item.vehId(),
                 item.plainNo(),
                 parseIntSafe(item.sectOrd()),
-                parseIntSafe(item.stOrd()),
+                parseIntSafe(item.sectOrd()),  // getBusPosByRouteSt는 stOrd를 제공하지 않으므로 sectOrd로 대체
                 "1".equals(item.stopFlag()),
                 BusType.fromCode(item.busType()),
-                parseIntOrNull(item.congetion()),
-                null  // occupancy: Seoul API에서 제공하지 않음
+                null,  // getBusPosByRouteSt는 congetion을 제공하지 않음
+                null   // occupancy: Seoul API에서 제공하지 않음
         );
     }
 
@@ -130,17 +130,6 @@ public class RoutePositionPoller {
         } catch (NumberFormatException e) {
             log.warn("정수 변환 실패 routeId={} value={}", routeId, value);
             return 0;
-        }
-    }
-
-    private Integer parseIntOrNull(String value) {
-        if (value == null || value.isBlank()) {
-            return null;
-        }
-        try {
-            return Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return null;
         }
     }
 }

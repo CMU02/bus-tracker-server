@@ -15,6 +15,18 @@ public record SeoulStationItem(
         @JsonProperty("arsId") String arsId,
         @JsonProperty("direction") String direction,
         @JsonProperty("gpsX") String gpsX,
-        @JsonProperty("gpsY") String gpsY
+        @JsonProperty("gpsY") String gpsY,
+        @JsonProperty("busRouteAbrv") String busRouteAbrv,
+        @JsonProperty("busRouteId") String busRouteId,
+        @JsonProperty("busRouteNm") String busRouteNm,
+        @JsonProperty("fullSectDist") String fullSectDist,
+        @JsonProperty("routeType") String routeType,
+        @JsonProperty("beginTm") String beginTm,
+        @JsonProperty("lastTm") String lastTm,
+        @JsonProperty("trnstnid") String trnstnid,
+        @JsonProperty("posX") String posX,
+        @JsonProperty("posY") String posY,
+        @JsonProperty("sectSpd") String sectSpd,
+        @JsonProperty("transYn") String transYn
 ) {
 }

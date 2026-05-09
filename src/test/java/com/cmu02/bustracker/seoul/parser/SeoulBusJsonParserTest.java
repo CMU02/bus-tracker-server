@@ -36,9 +36,14 @@ class SeoulBusJsonParserTest {
         assertThat(first.vehId()).isEqualTo("123456789");
         assertThat(first.plainNo()).isEqualTo("서울70사1234");
         assertThat(first.sectOrd()).isEqualTo("12");
-        assertThat(first.stOrd()).isEqualTo("13");
+        assertThat(first.sectDist()).isEqualTo("183");
         assertThat(first.stopFlag()).isEqualTo("0");
+        assertThat(first.sectionId()).isEqualTo("111700442");
+        assertThat(first.tmX()).isEqualTo("126.919766");
+        assertThat(first.tmY()).isEqualTo("37.623303");
         assertThat(first.busType()).isEqualTo("1");
+        assertThat(first.lastStnId()).isEqualTo("111001109");
+        assertThat(first.routeId()).isEqualTo("100100118");
     }
 
     @Test

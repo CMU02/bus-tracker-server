@@ -3,6 +3,7 @@ package com.cmu02.bustracker.seoul.parser;
 import com.cmu02.bustracker.common.error.SeoulApiException;
 import com.cmu02.bustracker.common.error.SeoulApiParseException;
 import com.cmu02.bustracker.seoul.dto.SeoulApiResult;
+import com.cmu02.bustracker.seoul.dto.SeoulArrivalItem;
 import com.cmu02.bustracker.seoul.dto.SeoulStationItem;
 import com.cmu02.bustracker.seoul.dto.SeoulVehiclePositionItem;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,9 @@ public class SeoulBusJsonParser {
     private static final TypeReference<SeoulApiResult<SeoulStationItem>> STATION_TYPE = new TypeReference<>() {
     };
 
+    private static final TypeReference<SeoulApiResult<SeoulArrivalItem>> ARRIVAL_TYPE = new TypeReference<>() {
+    };
+
     private final ObjectMapper objectMapper;
 
     public List<SeoulVehiclePositionItem> parseVehiclePositions(String json) {
@@ -37,6 +41,12 @@ public class SeoulBusJsonParser {
 
     public List<SeoulStationItem> parseStationList(String json) {
         SeoulApiResult<SeoulStationItem> result = readValue(json, STATION_TYPE);
+        validateHeader(result);
+        return result.body() == null ? List.of() : result.body().safeItems();
+    }
+
+    public List<SeoulArrivalItem> parseArrivalList(String json) {
+        SeoulApiResult<SeoulArrivalItem> result = readValue(json, ARRIVAL_TYPE);
         validateHeader(result);
         return result.body() == null ? List.of() : result.body().safeItems();
     }

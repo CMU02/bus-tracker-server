@@ -9,7 +9,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/pre-tool-guard.sh\"",
+            "command": "./.claude/hooks/pre-tool-guard.sh",
             "timeout": 10
           }
         ]
@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/update-progress.sh\"",
+            "command": "./.claude/hooks/update-progress.sh",
             "timeout": 10
           }
         ]
@@ -31,7 +31,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/post-tool-verify.sh\"",
+            "command": "./.claude/hooks/post-tool-verify.sh",
             "timeout": 30
           }
         ]
@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"C:/Program Files/Git/bin/bash.exe\" -lc \"./.claude/hooks/stop-report.sh\"",
+            "command": "./.claude/hooks/stop-report.sh",
             "timeout": 10
           }
         ]

@@ -9,7 +9,7 @@ public record VehiclePosition(
         String plainNo,
         int sectionOrd,
         int stationSeq,
-        boolean stopFlag,
+        StopFlag stopFlag,
         BusType busType,
         Integer congestion,
         Integer occupancy

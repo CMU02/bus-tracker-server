@@ -3,9 +3,12 @@ package com.cmu02.bustracker.position.application;
 import com.cmu02.bustracker.common.error.NatsPublishException;
 import com.cmu02.bustracker.common.error.SeoulApiException;
 import com.cmu02.bustracker.common.error.SeoulApiParseException;
+import com.cmu02.bustracker.common.util.ParsingUtils;
 import com.cmu02.bustracker.nats.RoutePositionPublisher;
 import com.cmu02.bustracker.position.domain.BusType;
 import com.cmu02.bustracker.position.domain.PositionSnapshot;
+import com.cmu02.bustracker.position.domain.RouteType;
+import com.cmu02.bustracker.position.domain.StopFlag;
 import com.cmu02.bustracker.position.domain.VehiclePosition;
 import com.cmu02.bustracker.seoul.client.SeoulBusPositionClient;
 import com.cmu02.bustracker.seoul.dto.SeoulVehiclePositionItem;
@@ -105,31 +108,20 @@ public class RoutePositionPoller {
         List<VehiclePosition> vehicles = items.stream()
                 .map(this::toVehiclePosition)
                 .toList();
-        return new PositionSnapshot(routeId, OffsetDateTime.now(clock), intervalSeconds, vehicles);
+        // routeType은 정류장 조회 API에서 제공되므로 현재는 UNKNOWN으로 설정
+        return new PositionSnapshot(routeId, RouteType.UNKNOWN, OffsetDateTime.now(clock), intervalSeconds, vehicles);
     }
 
     private VehiclePosition toVehiclePosition(SeoulVehiclePositionItem item) {
         return new VehiclePosition(
                 item.vehId(),
                 item.plainNo(),
-                parseIntSafe(item.sectOrd()),
-                parseIntSafe(item.sectOrd()),  // getBusPosByRouteSt는 stOrd를 제공하지 않으므로 sectOrd로 대체
-                "1".equals(item.stopFlag()),
+                ParsingUtils.parseIntSafe(item.sectOrd()),
+                ParsingUtils.parseIntSafe(item.sectOrd()),  // getBusPosByRouteSt는 stOrd를 제공하지 않으므로 sectOrd로 대체
+                StopFlag.fromCode(item.stopFlag()),
                 BusType.fromCode(item.busType()),
                 null,  // getBusPosByRouteSt는 congetion을 제공하지 않음
                 null   // occupancy: Seoul API에서 제공하지 않음
         );
-    }
-
-    private int parseIntSafe(String value) {
-        if (value == null || value.isBlank()) {
-            return 0;
-        }
-        try {
-            return Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            log.warn("정수 변환 실패 routeId={} value={}", routeId, value);
-            return 0;
-        }
     }
 }

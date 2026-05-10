@@ -6,9 +6,9 @@ package com.cmu02.bustracker.position.domain;
  * 인식 불가능한 값은 UNKNOWN으로 표현한다.
  */
 public enum BusType {
-    GENERAL,
-    LOW_FLOOR,
-    ARTICULATED,
+    GENERAL, // 일반버스
+    LOW_FLOOR, // 저상버스
+    ARTICULATED, // 굴절버스
     UNKNOWN;
 
     public static BusType fromCode(String code) {

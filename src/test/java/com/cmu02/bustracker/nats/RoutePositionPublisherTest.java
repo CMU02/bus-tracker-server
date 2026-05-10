@@ -5,6 +5,7 @@ import com.cmu02.bustracker.common.messaging.JacksonMessageSerializer;
 import com.cmu02.bustracker.common.messaging.MessageBrokerClient;
 import com.cmu02.bustracker.common.messaging.MessageSerializer;
 import com.cmu02.bustracker.position.domain.PositionSnapshot;
+import com.cmu02.bustracker.position.domain.RouteType;
 import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,6 +39,7 @@ class RoutePositionPublisherTest {
     void publishesToExpectedSubject() {
         PositionSnapshot snapshot = new PositionSnapshot(
                 "100100025",
+                RouteType.UNKNOWN,
                 OffsetDateTime.of(2026, 5, 2, 22, 30, 0, 0, ZoneOffset.ofHours(9)),
                 15,
                 List.of()
@@ -53,6 +55,7 @@ class RoutePositionPublisherTest {
     void wrapsPublishFailure() {
         PositionSnapshot snapshot = new PositionSnapshot(
                 "100100025",
+                RouteType.UNKNOWN,
                 OffsetDateTime.of(2026, 5, 2, 22, 30, 0, 0, ZoneOffset.ofHours(9)),
                 15,
                 List.of()

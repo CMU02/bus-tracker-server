@@ -9,6 +9,7 @@ import java.util.List;
  */
 public record PositionSnapshot(
         String routeId,
+        RouteType routeType,
         OffsetDateTime timestamp,
         int pollingIntervalSeconds,
         List<VehiclePosition> vehicles

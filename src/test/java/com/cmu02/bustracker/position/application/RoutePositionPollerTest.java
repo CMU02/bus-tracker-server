@@ -4,6 +4,7 @@ import com.cmu02.bustracker.common.error.NatsPublishException;
 import com.cmu02.bustracker.common.error.SeoulApiException;
 import com.cmu02.bustracker.nats.RoutePositionPublisher;
 import com.cmu02.bustracker.position.domain.PositionSnapshot;
+import com.cmu02.bustracker.position.domain.StopFlag;
 import com.cmu02.bustracker.seoul.client.SeoulBusPositionClient;
 import com.cmu02.bustracker.seoul.dto.SeoulVehiclePositionItem;
 import com.cmu02.bustracker.seoul.parser.SeoulBusJsonParser;
@@ -125,7 +126,7 @@ class RoutePositionPollerTest {
         verify(publisher).publish(captor.capture());
         var vehicles = captor.getValue().vehicles();
         assertThat(vehicles.get(0).busType().name()).isEqualTo("LOW_FLOOR");
-        assertThat(vehicles.get(0).stopFlag()).isTrue();
+        assertThat(vehicles.get(0).stopFlag()).isEqualTo(StopFlag.ARRIVAL);
         assertThat(vehicles.get(1).busType().name()).isEqualTo("GENERAL");
         assertThat(vehicles.get(1).congestion()).isNull();  // getBusPosByRouteSt는 congetion 필드를 제공하지 않음
     }

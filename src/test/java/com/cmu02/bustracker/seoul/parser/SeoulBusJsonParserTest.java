@@ -1,6 +1,7 @@
 package com.cmu02.bustracker.seoul.parser;
 
 import com.cmu02.bustracker.common.error.SeoulApiException;
+import com.cmu02.bustracker.seoul.dto.SeoulArrivalItem;
 import com.cmu02.bustracker.seoul.dto.SeoulStationItem;
 import com.cmu02.bustracker.seoul.dto.SeoulVehiclePositionItem;
 import tools.jackson.databind.ObjectMapper;
@@ -77,6 +78,40 @@ class SeoulBusJsonParserTest {
         assertThat(items.get(0).seq()).isEqualTo("1");
         assertThat(items.get(2).seq()).isEqualTo("3");
         assertThat(items.get(2).stationNm()).isEqualTo("도착 정류장");
+    }
+
+    @Test
+    @DisplayName("정상 도착 응답을 도착 목록으로 파싱한다")
+    void parsesArrivalList() throws Exception {
+        String json = readFixture("seoul/arrival-success.json");
+
+        List<SeoulArrivalItem> items = parser.parseArrivalList(json);
+
+        assertThat(items).hasSize(1);
+        SeoulArrivalItem item = items.get(0);
+        assertThat(item.stId()).isEqualTo("100000001");
+        assertThat(item.ord()).isEqualTo("5");
+        assertThat(item.busRouteId()).isEqualTo("100100118");
+        assertThat(item.vehId1()).isEqualTo("111111111");
+        assertThat(item.plainNo1()).isEqualTo("서울70사1111");
+        assertThat(item.busType1()).isEqualTo("0");
+        assertThat(item.arrmsg1()).isEqualTo("2분후[3번째 전]");
+        assertThat(item.arrprevstationcnt1()).isEqualTo("3");
+        assertThat(item.vehId2()).isEqualTo("222222222");
+        assertThat(item.busType2()).isEqualTo("1");
+        assertThat(item.arrprevstationcnt2()).isEqualTo("7");
+    }
+
+    @Test
+    @DisplayName("vehId가 0 또는 빈 값인 도착 항목도 원본 그대로 파싱한다")
+    void parsesArrivalListWithNoVehicle() throws Exception {
+        String json = readFixture("seoul/arrival-no-vehicle.json");
+
+        List<SeoulArrivalItem> items = parser.parseArrivalList(json);
+
+        assertThat(items).hasSize(1);
+        assertThat(items.get(0).vehId1()).isEqualTo("0");
+        assertThat(items.get(0).vehId2()).isEmpty();
     }
 
     private String readFixture(String path) throws Exception {

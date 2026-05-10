@@ -1,0 +1,30 @@
+{
+  "msgHeader": {
+    "headerCd": "0",
+    "headerMsg": "정상적으로 처리되었습니다.",
+    "itemCount": 1
+  },
+  "msgBody": {
+    "itemList": [
+      {
+        "stId": "100000001",
+        "stNm": "테스트정류장",
+        "ord": "5",
+        "busRouteId": "100100118",
+        "rtNm": "271",
+        "vehId1": "0",
+        "plainNo1": "",
+        "busType1": "0",
+        "arrmsg1": "운행종료",
+        "arrprevstationcnt1": "0",
+        "rerdie1": "0",
+        "vehId2": "",
+        "plainNo2": "",
+        "busType2": "0",
+        "arrmsg2": "운행종료",
+        "arrprevstationcnt2": "0",
+        "rerdie2": "0"
+      }
+    ]
+  }
+}
